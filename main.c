@@ -1,15 +1,7 @@
-#include<stdio.h>
-#include<stdlib.h>
-#include<unistd.h>
-#include<string.h>
-#include<sys/wait.h>
+#include "shell.h"
 #define MAX_LINE 1024
 #define MAX_ARGS 64
-void prompt()
-{
-  printf("tinysh>> ");
-  fflush(stdout);
-}
+
 void change_dir(char **args)
 {
    char *target_dir=args[1];
@@ -80,17 +72,23 @@ void execute_cmd(char *input)
 }
 int main()
  {
-  char input[MAX_LINE];
+  char input_line[MAX_LINE];
   while(1)
   {
-    prompt();
-    if(fgets(input,sizeof(input),stdin)==NULL)
+    char *input_line=readline("tiny>> ");
+    if(input_line==NULL)
     {
      printf("\n");
      break;
     }
-    input[strcspn(input,"\n")]=0;
-    execute_cmd(input);
+    //if input_line isnt empty
+    if(*input_line)
+    {
+      add_history(input_line);//save to history
+      execute_cmd(input_line);
+    }
+    free(input_line);
+    
   }
   return 0;
 }
