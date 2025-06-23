@@ -28,7 +28,7 @@ void change_dir(char **args)
     return;
    }
 }
-void execute_cmd(char *input)
+int execute_cmd(char *input)
 {
   char *args[MAX_ARGS];
   int i=0;
@@ -41,15 +41,19 @@ void execute_cmd(char *input)
   args[i]=NULL;
 
   if(args[0]==NULL)
-  return;
+  {
+    return 0;
+  }
 
   if(strcmp(args[0],"exit")==0)
-  exit(0);
+  {
+   return 1;
+  }
   
   if(strcmp(args[0],"cd")==0)
   {
-   change_dir(args);
-   return;
+    change_dir(args);
+    return 0;
    
   }
   
@@ -68,11 +72,16 @@ void execute_cmd(char *input)
   {
    perror("fork failed\n");
   }
+  return 0;
 
 }
+
+
+
 int main()
  {
-  char input_line[MAX_LINE];
+  read_history(".tinysh_history");
+  
   while(1)
   {
     char *input_line=readline("tiny>> ");
@@ -85,11 +94,19 @@ int main()
     if(*input_line)
     {
       add_history(input_line);//save to history
-      execute_cmd(input_line);
+
+      if(execute_cmd(input_line))//if user type "exit"
+      {
+        free(input_line);
+        break;
+      }
     }
     free(input_line);
     
   }
+  
+ write_history(".tinysh_history");  
+
   return 0;
 }
 
