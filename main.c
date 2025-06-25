@@ -44,6 +44,22 @@ int execute_cmd(char *input)
   {
     return 0;
   }
+  if(strcmp(args[0],"help")==0)
+  {
+    FILE *fp=fopen("tinysh.man","r");
+    if(fp==NULL)
+    {
+      perror("Unable to load help manual");
+      return 0;
+    }
+    char line[256];
+    while(fgets(line,sizeof(line),fp))
+    {
+      printf("%s",line);
+    }
+    fclose(fp);
+    return 0;
+  }
 
   if(strcmp(args[0],"exit")==0)
   {
@@ -84,7 +100,11 @@ int main()
   
   while(1)
   {
-    char *input_line=readline("tiny>> ");
+    char prompt[100];
+    snprintf(prompt, sizeof(prompt),
+    "\033[38;2;204;153;204m tiny>> \033[0m");
+    char *input_line = readline(prompt);
+
     if(input_line==NULL)
     {
      printf("\n");
