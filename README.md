@@ -23,7 +23,3 @@ Make sure you have `gcc` and `libreadline-dev`:
 ```bash
 sudo apt install build-essential libreadline-dev
 
-
-
-
-
