@@ -2,6 +2,25 @@
 #define MAX_LINE 1024
 #define MAX_ARGS 64
 #define MAX_CMD 10
+//remove space from begining and ending of string
+void trim(char *str) {
+    
+    int start = 0;
+    while (str[start] == ' ') start++;
+    
+    if (start > 0) {
+        //move the string to left to remove the space
+        memmove(str, str + start, strlen(str + start) + 1); 
+    }
+
+    
+    int end = strlen(str) - 1;
+    while (end >= 0 && (str[end] == ' ' || str[end] == '\n')) {
+        str[end] = '\0';
+        end--;
+    }
+}
+
 void split_pipe(char *input,char **cmd)
 {
   
@@ -9,7 +28,9 @@ void split_pipe(char *input,char **cmd)
   cmd[0]=strtok(input,"|");
   while(cmd[num]!=NULL && num<MAX_CMD-1)
   {
+    trim(cmd[num]);
     cmd[++num]=strtok(NULL,"|");
+
 
   }
   cmd[num]=NULL;
@@ -17,7 +38,7 @@ void split_pipe(char *input,char **cmd)
 void split_args(char *cmd,char **args)
 {
   int i=0;
-  char *token=strtok(cmd[i]," ");
+  char *token=strtok(cmd," ");
   while(token != NULL && i<MAX_ARGS)
   {
    args[i++]=token;
@@ -181,7 +202,7 @@ int execute_cmd(char *input)
       else if (pid<0)
       {
         perror("fork failed");
-        return0;
+        return 0;
       }
       if(in_fd!=0)
       close(in_fd);
@@ -198,7 +219,7 @@ int execute_cmd(char *input)
   return 0;
 
 }
-
+}
 
 
 int main()
@@ -232,7 +253,7 @@ int main()
     
   }
   
- write_history(".tinysh_history");  
+  write_history(".tinysh_history");  
 
   return 0;
 }
