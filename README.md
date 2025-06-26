@@ -11,6 +11,7 @@
 - [x] Command history with up/down arrow keys (Readline)
 - [x] Persistent history saved to `.tinysh_history`
 - [x] External manual loaded from `tinysh.man`
+- [x] **Pipe support** (`|`) — chain multiple commands like `ls -l | grep .c | wc -l`
 
 
 ---
@@ -21,4 +22,8 @@ Make sure you have `gcc` and `libreadline-dev`:
 
 ```bash
 sudo apt install build-essential libreadline-dev
+
+
+
+
 
