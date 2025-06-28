@@ -136,6 +136,25 @@ int execute_cmd(char *input)
           return 0;
          
         }
+        //chatbot
+        if(strcmp(args[0],"/ask")==0)
+        {
+          if(args[1]==NULL)
+          {
+            printf("Usage: /ask <your question>\n");
+            return 0;
+          }
+          char question[1024]="";
+          for(int i=0;args[i]!=NULL;i++)
+          {
+            strcat(question,args[i]);
+            strcat(question," ");
+          }
+          char command[2048];
+          snprintf(command,sizeof(command),"echo \"%s\" | ~/Desktop/tinysh/llama/llama.cpp/build/bin/llama-simple-chat -m ~/models/tinyllama.gguf --no-interactive -p -",question);
+          system(command);
+          return 0;
+        }
         
         pid_t pid=fork();
         if(pid == 0)
