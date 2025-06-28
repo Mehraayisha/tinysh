@@ -151,7 +151,7 @@ int execute_cmd(char *input)
             strcat(question," ");
           }
           char command[2048];
-          snprintf(command,sizeof(command),"echo \"%s\" | ~/Desktop/tinysh/llama/llama.cpp/build/bin/llama-simple-chat -m ~/models/tinyllama.gguf --no-interactive -p -",question);
+          snprintf(command,sizeof(command),"echo \"%s\" | /home/mehra/Desktop/tinysh/llama/llama.cpp/build/bin/llama-simple-chat -m /home/mehra/Desktop/tinysh/llama/llama.cpp/models/tinyllama.gguf --no-interactive -p -",question);
           system(command);
           return 0;
         }
