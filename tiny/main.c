@@ -145,17 +145,33 @@ int execute_cmd(char *input)
             return 0;
           }
           char question[1024]="";
-          for(int i=0;args[i]!=NULL;i++)
+          for(int i=1;args[i]!=NULL;i++)
           {
             strcat(question,args[i]);
             strcat(question," ");
           }
-          char command[2048];
-          snprintf(command,sizeof(command),"echo \"%s\" | /home/mehra/Desktop/tinysh/llama/llama.cpp/build/bin/llama-simple-chat -m /home/mehra/Desktop/tinysh/llama/llama.cpp/models/tinyllama.gguf --no-interactive -p -",question);
-          system(command);
-          return 0;
-        }
-        
+          
+            char *api_key = getenv("GROQ_API_KEY");
+    if (api_key == NULL) {
+        fprintf(stderr, "Error: GROQ_API_KEY not set. Use export GROQ_API_KEY=your_key\n");
+        return 0;
+    }
+
+    // Format curl command to call Groq
+    //curl is  command-line tool for HTTP request (-s means silent mode )this sends a post request
+    char command[4096];
+    snprintf(command, sizeof(command),
+        "curl -s https://api.groq.com/openai/v1/chat/completions "
+        "-H \"Authorization: Bearer %s\" "
+        "-H \"Content-Type: application/json\" "
+        "-d '{\"model\": \"llama3-8b-8192\", \"messages\": [{\"role\": \"user\", \"content\": \"%s\"}]}' "
+        "| jq -r '.choices[0].message.content'",
+        api_key, question);
+
+    // Execute the curl command
+    system(command);
+    return 0;
+}
         pid_t pid=fork();
         if(pid == 0)
         {
@@ -177,7 +193,7 @@ int execute_cmd(char *input)
  //if pipe is used
  else{
      
-     int in_fd=0;//initial input from keyboars
+     int in_fd=0;//initialiy input from keyboards
      int pipefd[2];
      pid_t pid;
      for(int i=0;cmd[i]!=NULL;i++)
@@ -200,7 +216,7 @@ int execute_cmd(char *input)
         //make the cmd read from pipe if its not the first cmd
          if(in_fd!=0)
          {
-          //redirects stdin to read from in_fd 0 -> stdin
+          //redirects stdin to read from in_fd     0 -> stdin
           dup2(in_fd,0);
           close(in_fd);
          }
