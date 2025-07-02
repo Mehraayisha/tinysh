@@ -1,4 +1,4 @@
-# 🐚 tinysh — A Minimal Unix Shell
+#  tinysh — A Minimal Unix Shell
 
 > `tinysh` is a lightweight interactive shell written in C, powered by GNU Readline, designed by [Mehra Ayisha](https://github.com/mehraayisha) with simplicity, learning, and elegance in mind 🤍
 
