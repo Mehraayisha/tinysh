@@ -9,12 +9,17 @@ Builtin Commands:
   clear          Clear the terminal screen
   version        Display shell version information
 
+Special Commands:
+  /ask <question>  Ask a Linux or shell-related question using AI (powered by Groq)
+
 External Commands:
   Run any valid Unix command like ls, pwd, whoami, etc.
 
 Features:
   - Command history with arrow keys
   - Saves history between sessions
-  - Clean prompt with working directory
+  - Pipe support (e.g., ls -l | grep .c)
+  - Clean, coloured prompt
+  - AI assistant support with `/ask`
 
 Made with love 🖤
