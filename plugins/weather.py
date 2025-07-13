@@ -1,6 +1,8 @@
 #!/usr/bin/env/python3
 import os
 import requests
+from dotenv import load_dotenv
+load_dotenv()
 def get_location():
    try:
      r=requests.get("https://ipinfo.io/json")
@@ -16,7 +18,7 @@ def get_weather(city):
    API_KEY=os.getenv("OWN_API_KEY")
    #os is a python module that allow interaction with operating systems
    if not API_KEY:
-     return :"API KEY isn't set in .env"
+     return "API KEY isn't set in .env"
    url = f"http://api.openweathermap.org/data/2.5/weather?q={city}&appid={API_KEY}&units=metric"
    try:
      r=requests.get(url)
@@ -30,4 +32,6 @@ def get_weather(city):
      return f"{emoji} {temp}°C, {desc}"
    except:
      return "could not get weather"
-
+city,region=get_location()
+weather=get_weather(city)
+print(f"📍{city},{region},{weather}")
