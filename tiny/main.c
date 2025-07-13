@@ -159,6 +159,7 @@ int execute_cmd(char *input)
 
     // Format curl command to call Groq
     //curl is  command-line tool for HTTP request (-s means silent mode )this sends a post request
+    
     char command[4096];
     snprintf(command, sizeof(command),
         "curl -s https://api.groq.com/openai/v1/chat/completions "
@@ -171,6 +172,10 @@ int execute_cmd(char *input)
     // Execute the curl command
     system(command);
     return 0;
+}
+else if (strcmp(args[0],"/weather")==0)
+{
+  system("python3 ../plugins/weather.py");
 }
         pid_t pid=fork();
         if(pid == 0)
