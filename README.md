@@ -14,6 +14,7 @@
 - [x] **Pipe support** (`|`) — chain commands like `ls -l | grep .c | wc -l`
 - [x] 💬 **AI Assistant Support** — Ask Linux & Bash questions with `/ask`
 - [x] Powered by **Groq's LLaMA 3 API** for lightning-fast responses
+- [x] 🌦️ **Weather Plugin** — Check live weather for any city with `/weather`
 - [x] Timeout-safe queries to avoid blocking the shell
 
 ---
