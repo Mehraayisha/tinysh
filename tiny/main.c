@@ -176,6 +176,7 @@ int execute_cmd(char *input)
 else if (strcmp(args[0],"/weather")==0)
 {
   system("python3 ../plugins/weather.py");
+  return 0;
 }
         pid_t pid=fork();
         if(pid == 0)
