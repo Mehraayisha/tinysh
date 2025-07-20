@@ -5,11 +5,15 @@ from random import randint
 import time
 
 def main(stdscr):
+	curses.curs_set(0)
 	height,width=stdscr.getmaxyx()#get max height and width of screen
 	stdscr.border()#border
-	stdscr.timeout(75)
+	stdscr.timeout(100)
 	segments=[[1,1]]
-	stdscr.addch(*segments[0],curses.ACS_BOARD)
+	stdscr.addch(*segments[0],'0')
+	food_pos=[randint(1,height-2),randint(1,width-2)]#generate food in the range
+	stdscr.addch(*food_pos,"*")#add food to screen in the generated position
+	score=0
 	dirs={#y,x ord return the unicode of the letter
 	    ord("w"):[-1,0],#up
 		ord("s"):[1,0],#down
@@ -18,18 +22,28 @@ def main(stdscr):
 	}
 	direction=[0,1]#initialise to right
 	while True:
+		stdscr.addstr(height-1,width-11,f"Score:{score}")
 		key = stdscr.getch()
-		if key in dirs:
+		if key in dirs and [dirs[key][0]+direction[0],dirs[key][1]+direction[1]]!=[0,0]:#dirs[key][0] means first element -1 if key= [-1,0]
 			direction=dirs[key]
 
 		head=[segments[0][0]+direction[0],segments[0][1]+direction[1]]#add the direction coordinate to the head postion to get new position of head
-		if head[0] in [0,height-1] or head[1] in [0,width-1]:#if head goes out of border exit
+		if head[0] in [0,height-1] or head[1] in [0,width-1] or head in segments:#if head goes out of border exit
 			break;
 		segments.insert(0,head)#add head in new position
-		stdscr.addch(*segments[0],curses.ACS_BOARD)#draw the new head to screen
+		if len(segments)>1:
+			stdscr.addch(*segments[1],'o')
+		stdscr.addch(*segments[0],'0')#draw the new head to screen
 
-		tail=segments.pop()#delete the old tail
-		stdscr.addch(*tail,' ')#clear the old tail from the screen
-		
+		if head!=food_pos:#remove tail only if the snake didnt eat food
+			tail=segments.pop()#delete the old tail
+			stdscr.addch(*tail,' ')#clear the old tail from the screen
+		else:#add new food if the snake eats the existing food
+			food_pos=[randint(1,height-2),randint(1,width-2)]#generate food in the range
+			while food_pos in segments:
+				food_pos=[randint(1,height-2),randint(1,width-2)]
+			stdscr.addch(*food_pos,"*")#add food to screen in the generated position
+			score+=1
+			
 
 wrapper(main)
