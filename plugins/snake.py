@@ -23,7 +23,7 @@ def main(stdscr):
 	}
 	direction=[0,1]#initialise to right
 	while True:
-		stdscr.addstr(height-1,width-11,f"Score:{score}")
+		stdscr.addstr(0,width-11,f"Score:{score}")
 		key = stdscr.getch()
 		if key in dirs and [dirs[key][0]+direction[0],dirs[key][1]+direction[1]]!=[0,0]:#dirs[key][0] means first element -1 if key= [-1,0]
 			direction=dirs[key]

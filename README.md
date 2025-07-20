@@ -15,6 +15,7 @@
 - [x] 💬 **AI Assistant Support** — Ask Linux & Bash questions with `/ask`
 - [x] Powered by **Groq's LLaMA 3 API** for lightning-fast responses
 - [x] 🌦️ **Weather Plugin** — Check live weather for any city with `/weather`
+- [x] 🐍 **Snake Plugin** — Play the classic Snake game with `/snake`
 - [x] Timeout-safe queries to avoid blocking the shell
 
 ---
