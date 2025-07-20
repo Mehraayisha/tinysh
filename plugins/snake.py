@@ -6,11 +6,12 @@ import time
 
 def main(stdscr):
 	curses.curs_set(0)
+	curses.init_pair(1,curses.COLOR_RED,curses.COLOR_BLACK)
 	height,width=stdscr.getmaxyx()#get max height and width of screen
 	stdscr.border()#border
 	stdscr.timeout(100)
 	segments=[[1,1]]
-	stdscr.addch(*segments[0],'0')
+	stdscr.addch(*segments[0],'0',curses.color_pair(1))
 	food_pos=[randint(1,height-2),randint(1,width-2)]#generate food in the range
 	stdscr.addch(*food_pos,"*")#add food to screen in the generated position
 	score=0
@@ -32,8 +33,8 @@ def main(stdscr):
 			break;
 		segments.insert(0,head)#add head in new position
 		if len(segments)>1:
-			stdscr.addch(*segments[1],'o')
-		stdscr.addch(*segments[0],'0')#draw the new head to screen
+			stdscr.addch(*segments[1],'o',curses.color_pair(1))
+		stdscr.addch(*segments[0],'0',curses.color_pair(1))#draw the new head to screen
 
 		if head!=food_pos:#remove tail only if the snake didnt eat food
 			tail=segments.pop()#delete the old tail
