@@ -157,6 +157,7 @@ int execute_cmd(char *input)
         return 0;
     }
 
+
     // Format curl command to call Groq
     //curl is  command-line tool for HTTP request (-s means silent mode )this sends a post request
     
@@ -176,6 +177,11 @@ int execute_cmd(char *input)
 else if (strcmp(args[0],"/weather")==0)
 {
   system("python3 ../plugins/weather.py");
+  return 0;
+}
+else if(strcmp(args[0],"/snake")==0)
+{
+  system("python3 ../plugins/snake.py");
   return 0;
 }
         pid_t pid=fork();
